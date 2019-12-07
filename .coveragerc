@@ -1,0 +1,4 @@
+[run]
+branch = true
+source = src
+omit = src/recipes/*.py

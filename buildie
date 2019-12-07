@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+
+import sys
+from argparse import ArgumentParser
+from pathlib import Path
+
+from src.exceptions import BuildieError
+from src.log import INFO, get_log
+from src.recipe import get_recipe
+
+
+def parse_args():
+    ap = ArgumentParser()
+    ap.add_argument("recipe")
+    ap.add_argument("--destdir", default=Path.home() / "build")
+    ap.add_argument("--distfiles", default=Path.home() / "distfiles")
+    ap.add_argument("--workdir", default=Path.home() / "tmp")
+    ap.add_argument("--variant", default="default")
+    return ap.parse_args()
+
+
+def main():
+    args = parse_args()
+    log = get_log(f"[{args.recipe}:{args.variant}]", level=INFO)
+    try:
+        cls = get_recipe("src.recipes", args.recipe, args.variant)
+        recipe = cls(
+            log=log,
+            destdir=args.destdir,
+            distfiles=args.distfiles,
+            workdir=args.workdir,
+        )
+        recipe.run()
+    except BuildieError as e:
+        log.error(e)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
