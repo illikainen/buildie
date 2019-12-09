@@ -19,6 +19,7 @@ confidence=
 enable=all
 disable=
     docstring-first-line-empty,
+    duplicate-code,
     invalid-name,
     locally-disabled,
     locally-enabled,
