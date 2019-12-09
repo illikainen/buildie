@@ -42,9 +42,6 @@ class Recipe:
     cxxflags: List[str] = cflags
 
     def __init__(self, log, destdir, distfiles, workdir):
-        if not self.name:
-            raise BuildieRecipeError("name must be set")
-
         self._log = log
         self._destdir = destdir / self.name
         self._workdir = workdir / self.name
