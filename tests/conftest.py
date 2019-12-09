@@ -3,7 +3,7 @@ from pytest import fixture
 from src.log import get_log
 from src.recipe import Source
 
-from .dummy import DummyDefaultRecipe
+from .dummy import DefaultRecipe
 
 
 @fixture
@@ -49,7 +49,7 @@ def recipe(tmp_path):
     distfiles.mkdir()
     workdir.mkdir()
 
-    r = DummyDefaultRecipe(
+    r = DefaultRecipe(
         log=get_log(), destdir=destdir, distfiles=distfiles, workdir=workdir
     )
     return r

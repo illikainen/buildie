@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from hashlib import sha256
 from importlib import import_module
-from inspect import getmembers, isclass
 from os import environ
 from pathlib import Path
 from shutil import rmtree
@@ -27,7 +26,6 @@ class Source:
 
 
 class Recipe:
-    name: str = ""
     sources: List[Source] = []
     apt_dependencies: List[str] = []
     cflags: List[str] = [
@@ -154,15 +152,19 @@ class Recipe:
     def _get_distfile(self, path):
         return self._distfiles / path
 
+    @property
+    def name(self):
+        return type(self).__module__.split(".")[-1]
+
 
 def get_recipe(path, name, variant):
     try:
         module = import_module(f"{path}.{name}")
-    except ImportError as e:
+    except ImportError:
         raise BuildieRecipeError(f"{name} is not a valid recipe")
 
-    for _, obj in getmembers(module):
-        if isclass(obj):
-            if getattr(obj, "variant", None) == variant:
-                return obj
-    raise BuildieRecipeError(f"{name} has no variant '{variant}'")
+    try:
+        recipe = variant[0].upper() + variant[1:].lower() + "Recipe"
+        return getattr(module, recipe)
+    except AttributeError:
+        raise BuildieRecipeError(f"{name} has no variant '{variant}'")

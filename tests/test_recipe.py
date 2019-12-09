@@ -1,26 +1,22 @@
 from pytest import raises
 
-from src.exceptions import BuildieExistError, BuildieRecipeError
+from src.exceptions import BuildieExistError
 from src.log import get_log
-from src.recipe import Recipe
 
-from .dummy import DummyDefaultRecipe
+from .dummy import DefaultRecipe
 
 
-def test_missing_name(tmp_path):
-    with raises(BuildieRecipeError):
-        Recipe(
-            log=get_log(),
-            destdir=tmp_path,
-            distfiles=tmp_path,
-            workdir=tmp_path,
-        )
+def test_name_property(tmp_path):
+    r = DefaultRecipe(
+        log=get_log(), destdir=tmp_path, distfiles=tmp_path, workdir=tmp_path
+    )
+    assert r.name == "dummy"
 
 
 def test_already_installed(tmp_path):
     with raises(BuildieExistError):
-        (tmp_path / DummyDefaultRecipe.name).mkdir()
-        DummyDefaultRecipe(
+        (tmp_path / "dummy").mkdir()
+        DefaultRecipe(
             log=get_log(),
             destdir=tmp_path,
             distfiles=tmp_path,

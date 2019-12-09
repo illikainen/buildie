@@ -2,9 +2,7 @@ from ...recipe import Recipe, Source
 from ...utils import call, chdir, nproc
 
 
-class MuDefaultRecipe(Recipe):
-    variant = "default"
-    name = "mu"
+class DefaultRecipe(Recipe):
     archive = "mu-1.2.0.tar.xz"
     mirror = "https://ftp.openbsd.org/pub/OpenBSD/distfiles"
     sources = [
