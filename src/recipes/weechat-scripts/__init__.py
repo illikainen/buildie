@@ -44,5 +44,7 @@ class DefaultRecipe(Recipe):
     apt_dependencies = ["weechat", "weechat-python"]
 
     def install(self):
+        self._destdir.mkdir(parents=True)
+
         for src in self.sources:
             copy(self._get_distfile(src.path), self._destdir)
