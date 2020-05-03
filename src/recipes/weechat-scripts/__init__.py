@@ -1,7 +1,6 @@
 from shutil import copytree
 
 from ...recipe import Recipe, Source
-from ...utils import chdir
 
 
 mirror = (
@@ -45,6 +44,5 @@ class DefaultRecipe(Recipe):
     apt_dependencies = ["weechat", "weechat-python"]
 
     def install(self):
-        with chdir(self._workdir):
-            for src in self.sources:
-                copytree(src.path, self._destdir)
+        for src in self.sources:
+            copytree(self._get_distfile(src.path), self._destdir)
