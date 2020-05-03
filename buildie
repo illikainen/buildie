@@ -13,9 +13,9 @@ def parse_args():
     ap = ArgumentParser()
     base = Path.home() / ".buildie"
     ap.add_argument("recipe")
-    ap.add_argument("--destdir", default=base / "destdir")
-    ap.add_argument("--distfiles", default=base / "distfiles")
-    ap.add_argument("--workdir", default=base / "workdir")
+    ap.add_argument("--destdir", default=base / "destdir", type=Path)
+    ap.add_argument("--distfiles", default=base / "distfiles", type=Path)
+    ap.add_argument("--workdir", default=base / "workdir", type=Path)
     ap.add_argument("--variant", default="default")
     return ap.parse_args()
 
