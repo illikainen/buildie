@@ -42,7 +42,7 @@ urlgrab = Source(
 
 class DefaultRecipe(Recipe):
     sources = [autosort, buffer_autohide, go, lnotify, urlgrab]
-    apt_dependencies = ["python3-weechat", "weechat"]
+    apt_dependencies = ["weechat", "weechat-python"]
 
     def install(self):
         with chdir(self._workdir):
