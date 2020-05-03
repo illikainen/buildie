@@ -1,4 +1,4 @@
-from shutil import copytree
+from shutil import copy
 
 from ...recipe import Recipe, Source
 
@@ -45,4 +45,4 @@ class DefaultRecipe(Recipe):
 
     def install(self):
         for src in self.sources:
-            copytree(self._get_distfile(src.path), self._destdir)
+            copy(self._get_distfile(src.path), self._destdir)
